@@ -730,7 +730,7 @@ class Base(FieldAttributeBase):
     # flags and misc. settings
     environment = FieldAttribute(isa='list', extend=True, prepend=True)
     no_log = FieldAttribute(isa='bool')
-    run_once = FieldAttribute(isa='bool')
+    run_once = FieldAttribute(isa='bool', always_post_validate=True)
     ignore_errors = FieldAttribute(isa='bool')
     ignore_unreachable = FieldAttribute(isa='bool')
     check_mode = FieldAttribute(isa='bool', default=context.cliargs_deferred_get('check'))

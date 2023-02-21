@@ -213,7 +213,12 @@ class StrategyModule(StrategyBase):
                                 skip_rest = True
                                 break
 
-                        run_once = templar.template(task.run_once) or action and getattr(action, 'BYPASS_HOST_LOOP', False)
+                        templated_task_run_once = templar.template(task.run_once)
+                        if templated_task_run_once is not None:
+                            task_run_once = task.get_validated_value('run_once', task.fattributes.get('run_once'), templated_task_run_once, templar)
+                            setattr(task, 'run_once', task_run_once)
+
+                        run_once = templated_task_run_once or action and getattr(action, 'BYPASS_HOST_LOOP', False)
 
                         if (task.any_errors_fatal or run_once) and not task.ignore_errors:
                             any_errors_fatal = True
